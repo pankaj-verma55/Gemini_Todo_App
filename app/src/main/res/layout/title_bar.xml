@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/ic_arrow_back"
+        android:layout_gravity="center"
+        />
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Task"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        />
+
+    <ImageView
+        android:id="@+id/clockBtn"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/ic_timer"
+        android:layout_gravity="end"
+        />
+
+</LinearLayout>

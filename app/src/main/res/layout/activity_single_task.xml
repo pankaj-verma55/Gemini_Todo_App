@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/pink"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SingleTaskActivity">
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/title_bar"/>
+
+    <TextView
+        android:id="@+id/dayTaskTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today Task"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:layout_marginTop="40dp"
+        android:textStyle="normal"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/title_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <TextView
+        android:id="@+id/totalDayTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6 Tasks"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@id/dayTaskTxt"
+        app:layout_constraintStart_toStartOf="@+id/dayTaskTxt"
+        />
+
+    <TextView
+        android:id="@+id/AddTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New"
+        android:textColor="@color/pink"
+        android:background="@drawable/button_bg"
+        android:backgroundTint="@color/white"
+        android:padding="8dp"
+        android:textSize="18dp"
+        android:textStyle="normal"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/dayTaskTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/dayTaskTxt"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/single_task_bg"
+        app:layout_constraintTop_toBottomOf="@+id/totalDayTask"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:orientation="horizontal"
+            tools:itemCount="1"
+            tools:listitem="@layout/date_layout"
+            app:layout_constraintBottom_toTopOf="@+id/choseActivityTxt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/choseActivityTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Chose Activity"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/activityRvList"
+            app:layout_constraintStart_toStartOf="@+id/rvDate"
+            app:layout_constraintTop_toBottomOf="@+id/rvDate"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activityRvList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choseActivityTxt"
+            app:layout_constraintVertical_bias="0.5"
+            tools:listitem="@layout/chose_activity_layout" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/delete_bg"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Delete Task"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

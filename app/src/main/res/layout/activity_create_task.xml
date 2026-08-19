@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateTaskActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/title_bar"
+                layout="@layout/title_bar" />
+
+            <CalendarView
+                android:id="@+id/calenderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_bar" />
+
+            <LinearLayout
+                android:id="@+id/layoutItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/calenderView"
+                app:layout_constraintStart_toStartOf="@id/calenderView"
+                app:layout_constraintTop_toBottomOf="@id/calenderView">
+
+                <ImageView
+                    android:id="@+id/iconImage"
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_food"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titleTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:text="Idea"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toTopOf="@+id/totalTaskTxt"
+                        app:layout_constraintStart_toEndOf="@+id/iconImage"
+                        app:layout_constraintTop_toTopOf="@id/iconImage" />
+
+                    <TextView
+                        android:id="@+id/totalTaskTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_weight="1"
+                        android:text="12 Task"
+                        android:textColor="#958E9D"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iconImage"
+                        app:layout_constraintTop_toBottomOf="@+id/titleTxt" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/arrowDown"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="24dp"
+                    android:rotation="90"
+                    android:src="@drawable/ic_right_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/iconImage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iconImage" />
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvItem"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/layoutItem"
+                app:layout_constraintStart_toStartOf="@+id/layoutItem"
+                app:layout_constraintTop_toBottomOf="@+id/layoutItem"
+                tools:itemCount="2"
+                tools:listitem="@layout/chose_activity_layout" />
+
+            <EditText
+                android:id="@+id/taskTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/text_bg"
+                android:hint="Write Your Task"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="@id/layoutItem"
+                app:layout_constraintStart_toStartOf="@id/layoutItem"
+                app:layout_constraintTop_toBottomOf="@+id/rvItem" />
+
+            <EditText
+                android:id="@+id/taskDescriptionTxt"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/text_bg"
+                android:gravity="top"
+                android:hint="Write Your Task"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="@id/taskTxt"
+                app:layout_constraintStart_toStartOf="@id/taskTxt"
+                app:layout_constraintTop_toBottomOf="@+id/taskTxt" />
+
+            <TextView
+                android:id="@+id/createTaskBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Create Task"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/taskDescriptionTxt" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
