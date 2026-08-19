@@ -83,13 +83,6 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
             dataItem = dates, 0,
             selectedDate = selectedDate
         ) { date ->
-//            lifecycleScope.launch {
-//                viewModel.todoItems.collect { todoList ->
-//                    selectedDate = date
-//                    todoFilterList = todoList
-//                    choseAdapter.submitList(todoList, selectedDate)
-//                }
-//            }
 
             selectedDate = date
 
@@ -119,5 +112,8 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
 
         intent.putExtra("selected_category", category)
         startActivity(intent)
+    }
+    override fun onDeleteTodo(todo: List<TodoItem>) {
+        TODO("Not yet implemented")
     }
 }

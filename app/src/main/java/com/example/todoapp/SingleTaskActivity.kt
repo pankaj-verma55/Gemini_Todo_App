@@ -30,6 +30,7 @@ class SingleTaskActivity : AppCompatActivity() {
     private var todoFilterList: List<TodoItem> = emptyList()
     private var currentSelectedDate: String = ""
     private var viewType = 2
+    private var selectedTodos: List<TodoItem> = emptyList()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,17 @@ class SingleTaskActivity : AppCompatActivity() {
 
         val choseAdapter = ChoseActivityAdapter(
             choseList,
-            emptyList(), viewType, null
+            emptyList(), viewType, object : OnCategoryClickListener {
+
+                override fun onCategoryClick(category: String) {
+                    // category click
+                }
+
+                override fun onDeleteTodo(todo: List<TodoItem>) {
+//                    viewModel.deleteTodo(todo)
+                    selectedTodos = todo
+                }
+            }
         )
 
 
@@ -139,6 +150,13 @@ class SingleTaskActivity : AppCompatActivity() {
             startActivity(Intent(this, CreateTaskActivity::class.java))
         }
 
+        binding.deleteBtn.setOnClickListener {
+            selectedTodos.forEach { todo ->
+                viewModel.deleteTodo(todo)
+            }
+
+            selectedTodos = emptyList()
+        }
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

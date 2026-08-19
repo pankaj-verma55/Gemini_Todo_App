@@ -4,9 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todoapp.CreateTaskActivity
 import com.example.todoapp.Data.DataClass.ChoseDataItem
 import com.example.todoapp.Domain.TodoItem
 import com.example.todoapp.SingleTaskActivity
@@ -19,6 +17,7 @@ class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
                                 private val listener: OnCategoryClickListener? = null
 ) :
     RecyclerView.Adapter<ChoseActivityAdapter.ChoseActivityViewHolder>() {
+    private val selectedItems = mutableSetOf<TodoItem>()
     override fun onCreateViewHolder(
         view: ViewGroup,
         position: Int
@@ -60,8 +59,19 @@ class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
             holder.binding.timeTxt.visibility = View.VISIBLE
             holder.binding.totalTaskTxt.text = item2.description
             holder.binding.titleTxt.text = item2.title
-            holder.binding.root.setOnClickListener {
-                holder.binding.checkbox.isChecked = !holder.binding.checkbox.isChecked
+//            holder.binding.root.setOnClickListener {
+//                holder.binding.checkbox.isChecked = !holder.binding.checkbox.isChecked
+//            }
+            holder.binding.checkbox.isChecked = selectedItems.contains(item2)
+
+            holder.binding.checkbox.setOnClickListener {
+                if (holder.binding.checkbox.isChecked) {
+                    selectedItems.add(item2)
+                } else {
+                    selectedItems.remove(item2)
+                }
+
+                listener?.onDeleteTodo(selectedItems.toList())
             }
         }
 
@@ -81,6 +91,8 @@ class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
     ) {
         if(viewTypes==2) {
             todoItemList = todoList
+
+            selectedItems.retainAll(todoItemList.toSet())
         } else {
             itemList = itemList.map { choseItem ->
 
