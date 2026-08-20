@@ -7,74 +7,116 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.Data.DataClass.ChoseDataItem
 import com.example.todoapp.Domain.TodoItem
+import com.example.todoapp.R
 import com.example.todoapp.SingleTaskActivity
 import com.example.todoapp.Ui.Adapter.interfaces.OnCategoryClickListener
 import com.example.todoapp.databinding.ChoseActivityLayoutBinding
+import com.example.todoapp.databinding.ChoseGridLayoutBinding
 
 class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
-                                private var todoItemList: List<TodoItem>,
-                                private val viewTypes: Int,
-                                private val listener: OnCategoryClickListener? = null
+                           private var todoItemList: List<TodoItem>,
+                           private var viewTypes: Int,
+                           private var gridType:Int,
+                           private val listener: OnCategoryClickListener? = null
 ) :
-    RecyclerView.Adapter<ChoseActivityAdapter.ChoseActivityViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val selectedItems = mutableSetOf<TodoItem>()
+
     override fun onCreateViewHolder(
-        view: ViewGroup,
-        position: Int
-    ): ChoseActivityViewHolder {
-        val binding = ChoseActivityLayoutBinding.inflate(
-            LayoutInflater.from(view.context), view, false
-        )
-        return ChoseActivityViewHolder(binding)
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
+
+        return when (viewType) {
+
+            1 -> {
+                val binding = ChoseActivityLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+
+                ChoseActivityViewHolder(binding)
+            }
+
+            2 -> {
+                val binding = ChoseGridLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+
+                TodoGridViewHolder(binding)
+            }
+
+            else -> throw IllegalArgumentException("Unknown viewType: $viewType")
+        }
     }
 
     override fun onBindViewHolder(
-        holder: ChoseActivityViewHolder,
+        holder: RecyclerView.ViewHolder,
         position: Int
     ) {
+
         if (viewTypes == 1) {
+            // CATEGORY
             val item = itemList[position]
-            holder.binding.checkbox.visibility = View.GONE
-            holder.binding.arrowDown.visibility = View.VISIBLE
-            holder.binding.iconImage.visibility = View.VISIBLE
-            holder.binding.timeTxt.visibility = View.GONE
-            holder.binding.titleTxt.text = item.task
-            holder.binding.totalTaskTxt.text = item.totalTask
-            holder.binding.root.setOnClickListener {
-                listener?.onCategoryClick(item.task)
-                val intent = Intent(
-                    holder.binding.root.context,
-                    SingleTaskActivity::class.java
-                )
-                intent.putExtra("selected_category", item.task)
-                holder.binding.root.context.startActivity(intent)
-            }
-        } else {
+            when (holder) {
+                is ChoseActivityViewHolder -> {
+                    holder.binding.checkbox.visibility = View.GONE
+                    holder.binding.arrowDown.visibility = View.VISIBLE
+                    holder.binding.iconImage.visibility = View.VISIBLE
+                    holder.binding.timeTxt.visibility = View.GONE
+                    holder.binding.iconImage.setImageResource(item.image)
+                    holder.binding.titleTxt.text = item.task
+                    holder.binding.totalTaskTxt.text =
+                        "${item.totalTask} Task"
 
-            val item2 = todoItemList[position]
-
-            holder.binding.arrowDown.visibility = View.GONE
-            holder.binding.checkbox.visibility = View.VISIBLE
-            holder.binding.iconImage.visibility = View.GONE
-            holder.binding.timeTxt.visibility = View.VISIBLE
-            holder.binding.totalTaskTxt.text = item2.description
-            holder.binding.titleTxt.text = item2.title
-//            holder.binding.root.setOnClickListener {
-//                holder.binding.checkbox.isChecked = !holder.binding.checkbox.isChecked
-//            }
-            holder.binding.checkbox.isChecked = selectedItems.contains(item2)
-
-            holder.binding.checkbox.setOnClickListener {
-                if (holder.binding.checkbox.isChecked) {
-                    selectedItems.add(item2)
-                } else {
-                    selectedItems.remove(item2)
+                    holder.binding.root.setOnClickListener {
+                        listener?.onCategoryClick(item.task)
+                    }
                 }
 
-                listener?.onDeleteTodo(selectedItems.toList())
+                is TodoGridViewHolder -> {
+                    holder.binding.titleTxt.text = item.task
+                    holder.binding.totalTaskTxt.text =
+                        "${item.totalTask} Task"
+                    holder.binding.imageGridIcon.setImageResource(item.image)
+
+                    holder.binding.root.setOnClickListener {
+                        listener?.onCategoryClick(item.task)
+                    }
+                }
+            }
+
+        } else {
+            val item = todoItemList[position]
+            when (holder) {
+                is ChoseActivityViewHolder -> {
+                    holder.binding.arrowDown.visibility = View.GONE
+                    holder.binding.checkbox.visibility = View.VISIBLE
+                    holder.binding.iconImage.visibility = View.GONE
+                    holder.binding.timeTxt.visibility = View.VISIBLE
+                    holder.binding.timeTxt.text = item.time
+                    holder.binding.titleTxt.text = item.title
+                    holder.binding.totalTaskTxt.text = item.description
+                    holder.binding.checkbox.isChecked =
+                        selectedItems.contains(item)
+                    holder.binding.checkbox.setOnClickListener {
+
+                        if (holder.binding.checkbox.isChecked) {
+                            selectedItems.add(item)
+                        } else {
+                            selectedItems.remove(item)
+                        }
+
+                        listener?.onDeleteTodo(
+                            selectedItems.toList()
+                        )
+                    }
+                }
             }
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -110,6 +152,23 @@ class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
         notifyDataSetChanged()
     }
 
-    class ChoseActivityViewHolder(val binding: ChoseActivityLayoutBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    fun setGridLayout(layout: Int) {
+        gridType = layout
+        notifyDataSetChanged()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (gridType == 1) {
+            1 // List
+        } else {
+            2 // Grid
+        }
+    }
+class ChoseActivityViewHolder(
+    val binding: ChoseActivityLayoutBinding
+) : RecyclerView.ViewHolder(binding.root)
+
+    class TodoGridViewHolder(
+        val binding: ChoseGridLayoutBinding
+    ) : RecyclerView.ViewHolder(binding.root)
 }

@@ -16,6 +16,7 @@ class TodoDataRepository(private val dao: TodoDao) : TodoRepository {
                     listSelectedItem = entity.listSelectedItem,
                     title = entity.title,
                     description = entity.description,
+                    time = entity.time,
                     done = entity.done
                 )
             }
@@ -30,6 +31,7 @@ class TodoDataRepository(private val dao: TodoDao) : TodoRepository {
                 todo.listSelectedItem,
                 todo.title,
                 todo.description,
+                todo.time,
                 todo.done
             )
         )
@@ -43,6 +45,7 @@ class TodoDataRepository(private val dao: TodoDao) : TodoRepository {
                 todo.listSelectedItem,
                 todo.title,
                 todo.description,
+                todo.time,
                 todo.done
             )
         )
@@ -56,6 +59,7 @@ class TodoDataRepository(private val dao: TodoDao) : TodoRepository {
                 todo.listSelectedItem,
                 todo.title,
                 todo.description,
+                todo.time,
                 todo.done
             )
         )

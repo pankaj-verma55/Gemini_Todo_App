@@ -6,5 +6,6 @@ data class TodoItem(
     val listSelectedItem: String,
     val title: String,
     val description: String,
+    val time: String,
     val done: Boolean
 )

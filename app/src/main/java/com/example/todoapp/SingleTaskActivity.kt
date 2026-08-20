@@ -3,6 +3,7 @@ package com.example.todoapp
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -51,10 +52,22 @@ class SingleTaskActivity : AppCompatActivity() {
                 localDate = date
             )
         }
-        currentSelectedDate = dates[0].date
+
         val selectedCategory = intent.getStringExtra("selected_category") ?: ""
+        val sDate = intent.getStringExtra("selected_date") ?: ""
 
+        val selectedPosition = dates.indexOfFirst {
+            it.date == sDate
+        }.let {
+            if (it >= 0) it else 0
+        }
 
+//        currentSelectedDate = dates[0].date
+        currentSelectedDate = if (sDate.isNotEmpty()) {
+            sDate.substringBefore("/")
+        } else {
+            dates[0].date
+        }
 //        Chose Adapter
         val choseList = listOf(
             ChoseDataItem(R.drawable.ic_bulb, "Idea", "0"),
@@ -67,7 +80,10 @@ class SingleTaskActivity : AppCompatActivity() {
 
         val choseAdapter = ChoseActivityAdapter(
             choseList,
-            emptyList(), viewType, object : OnCategoryClickListener {
+            emptyList()
+            , viewType,
+            1,
+            object : OnCategoryClickListener {
 
                 override fun onCategoryClick(category: String) {
                     // category click
@@ -130,7 +146,8 @@ class SingleTaskActivity : AppCompatActivity() {
         }
 
         val adapter = DateAdapter(
-            dataItem = dates, 0,
+            dataItem = dates,
+            selectedPosition,
             selectedDate = currentSelectedDate
         ) { selectedDate ->
             currentSelectedDate = selectedDate
@@ -142,12 +159,16 @@ class SingleTaskActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvDate.adapter = adapter
 
-        binding.titleBar.backBtn.setOnClickListener {
-            finish()
-        }
+
 
         binding.AddTask.setOnClickListener {
             startActivity(Intent(this, CreateTaskActivity::class.java))
+        }
+
+        binding.titleBar.backBtn.setBackgroundResource(R.drawable.ic_back_white)
+        binding.titleBar.backBtn.visibility = View.VISIBLE
+        binding.titleBar.backBtn.setOnClickListener {
+            finish()
         }
 
         binding.deleteBtn.setOnClickListener {
