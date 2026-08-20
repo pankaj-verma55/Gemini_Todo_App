@@ -142,12 +142,14 @@ class SingleTaskActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvDate.adapter = adapter
 
-        binding.titleBar.backBtn.setOnClickListener {
-            finish()
-        }
+
 
         binding.AddTask.setOnClickListener {
             startActivity(Intent(this, CreateTaskActivity::class.java))
+        }
+
+        binding.titleBar.backBtn.setOnClickListener {
+            finish()
         }
 
         binding.deleteBtn.setOnClickListener {
