@@ -8,17 +8,21 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.Data.DataClass.ChoseDataItem
 import com.example.todoapp.Data.DateItem
 import com.example.todoapp.Domain.TodoItem
 import com.example.todoapp.Ui.Adapter.ChoseActivityAdapter
 import com.example.todoapp.Ui.Adapter.DateAdapter
+import com.example.todoapp.Ui.Adapter.Viewmodel.GeminiViewModel
 import com.example.todoapp.Ui.Adapter.Viewmodel.TodoViewModel
 import com.example.todoapp.Ui.Adapter.interfaces.OnCategoryClickListener
 import com.example.todoapp.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -96,6 +100,13 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
         binding.floatingBtn.setOnClickListener {
             startActivity(Intent(this, CreateTaskActivity::class.java))
         }
+
+//        binding.askButton.setOnClickListener {
+//
+//            val prompt = binding.promptEditText.text.toString()
+//
+//            viewModel.askGemini(prompt)
+//        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
