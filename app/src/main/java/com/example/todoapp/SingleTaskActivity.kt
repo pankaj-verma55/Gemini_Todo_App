@@ -82,7 +82,9 @@ class SingleTaskActivity : AppCompatActivity() {
 
         val choseAdapter = ChoseActivityAdapter(
             choseList,
-            emptyList(), viewType, object : OnCategoryClickListener {
+            emptyList()
+            , viewType,
+            object : OnCategoryClickListener {
 
                 override fun onCategoryClick(category: String) {
                     // category click

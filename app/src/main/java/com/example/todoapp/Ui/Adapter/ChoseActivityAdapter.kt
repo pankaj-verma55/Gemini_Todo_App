@@ -52,6 +52,7 @@ class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
             holder.binding.checkbox.visibility = View.VISIBLE
             holder.binding.iconImage.visibility = View.GONE
             holder.binding.timeTxt.visibility = View.VISIBLE
+            holder.binding.timeTxt.text = item2.time
             holder.binding.totalTaskTxt.text = item2.description
             holder.binding.titleTxt.text = item2.title
             holder.binding.checkbox.isChecked = selectedItems.contains(item2)

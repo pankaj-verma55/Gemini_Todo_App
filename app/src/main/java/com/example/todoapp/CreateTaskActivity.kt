@@ -31,7 +31,10 @@ import com.example.todoapp.Ui.Adapter.ChoseItemAdapter
 import com.example.todoapp.Ui.Adapter.Viewmodel.GeminiViewModel
 import com.example.todoapp.Ui.Adapter.Viewmodel.GeminiViewModelFactory
 import com.example.todoapp.Ui.Adapter.Viewmodel.TodoViewModel
+import com.example.todoapp.Ui.Adapter.dialog.TimeBottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
@@ -41,10 +44,11 @@ import java.util.Calendar
 class CreateTaskActivity : AppCompatActivity() {
     private lateinit var viewModel: TodoViewModel
     private var isVoiceRequest = false
+    private var selectedTime: String =""
     private lateinit var binding: ActivityCreateTaskBinding
     private lateinit var geminiViewModel: GeminiViewModel
     private lateinit var speechRecognizer: SpeechRecognizer
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateTaskBinding.inflate(layoutInflater)
@@ -208,12 +212,11 @@ class CreateTaskActivity : AppCompatActivity() {
         }
 
         binding.titleBar.clockBtn.setOnClickListener {
-            binding.calenderView.visibility =
-                if (binding.calenderView.isVisible) {
-                    View.GONE
-                } else {
-                    View.VISIBLE
-                }
+
+            val dialog = TimeBottomSheetDialog(this) { time ->
+                selectedTime = time
+            }
+            dialog.show()
         }
 
         binding.layoutItem.setOnClickListener {
@@ -241,11 +244,19 @@ class CreateTaskActivity : AppCompatActivity() {
             val description = binding.taskDescriptionTxt.text.toString()
 
             if (title.isNotBlank()) {
+                val timeToSave = selectedTime.ifBlank {
+                    String.format(
+                        "%02d:%02d",
+                        Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                        Calendar.getInstance().get(Calendar.MINUTE)
+                    )
+                }
                 viewModel.addTodo(
                     date,
                     selectedItem,
                     title = title,
                     description = description,
+                    time = timeToSave,
                     done = false
                 )
                 finish()

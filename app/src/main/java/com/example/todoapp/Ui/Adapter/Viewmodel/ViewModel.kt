@@ -24,10 +24,10 @@ open class TodoViewModel(application: Application) : AndroidViewModel(applicatio
         SharingStarted.Lazily,
         emptyList()
     )
-    fun addTodo(fullDate:String,listSelectedItem: String,title: String, description: String, done: Boolean) {
+    fun addTodo(fullDate:String, listSelectedItem: String, title: String, description: String, time: String, done: Boolean) {
         viewModelScope.launch {
             Log.d("TODO_TEST", "addTodo() called")
-            addTodoUser.execute(fullDate,listSelectedItem,title, description, done)
+            addTodoUser.execute(fullDate,listSelectedItem,title, description, time, done)
         }
     }
 

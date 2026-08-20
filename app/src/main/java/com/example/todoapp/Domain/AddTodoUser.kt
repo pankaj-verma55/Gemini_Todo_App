@@ -8,6 +8,7 @@ class AddTodoUser(private val repository: TodoRepository) {
         listSelectedItem: String,
         title: String,
         description: String,
+        time: String,
         done: Boolean
     ) {
         repository.createTodoData(
@@ -16,6 +17,7 @@ class AddTodoUser(private val repository: TodoRepository) {
                 listSelectedItem = listSelectedItem,
                 title = title,
                 description = description,
+                time = time,
                 done = done
             )
         )
