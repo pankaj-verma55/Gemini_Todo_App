@@ -165,7 +165,7 @@ class SingleTaskActivity : AppCompatActivity() {
             startActivity(Intent(this, CreateTaskActivity::class.java))
         }
 
-        binding.titleBar.backBtn.setBackgroundResource(R.drawable.ic_box_white)
+        binding.titleBar.backBtn.setBackgroundResource(R.drawable.ic_back_white)
         binding.titleBar.backBtn.visibility = View.VISIBLE
         binding.titleBar.backBtn.setOnClickListener {
             finish()
