@@ -1,6 +1,7 @@
 package com.example.todoapp
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +44,7 @@ class CreateTaskActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateTaskBinding
     private lateinit var geminiViewModel: GeminiViewModel
     private lateinit var speechRecognizer: SpeechRecognizer
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateTaskBinding.inflate(layoutInflater)
@@ -268,6 +271,170 @@ class CreateTaskActivity : AppCompatActivity() {
                 startVoiceRecognition()
             }
         }
+
+        binding.geminiAiBtn.setOnTouchListener(object : View.OnTouchListener {
+
+            private var dX = 0f
+            private var dY = 0f
+
+            private var startX = 0f
+            private var startY = 0f
+
+            private var isDragging = false
+
+            override fun onTouch(view: View, event: MotionEvent): Boolean {
+
+                val parent = view.parent as View
+
+                when (event.actionMasked) {
+
+                    MotionEvent.ACTION_DOWN -> {
+
+                        dX = view.x - event.rawX
+                        dY = view.y - event.rawY
+
+                        startX = event.rawX
+                        startY = event.rawY
+
+                        isDragging = false
+
+                        return true
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+
+                        val distanceX = event.rawX - startX
+                        val distanceY = event.rawY - startY
+
+                        // Consider it a drag after moving 10 pixels
+                        if (kotlin.math.abs(distanceX) > 10 ||
+                            kotlin.math.abs(distanceY) > 10
+                        ) {
+                            isDragging = true
+                        }
+
+                        if (isDragging) {
+
+                            var newX = event.rawX + dX
+                            var newY = event.rawY + dY
+
+                            newX = newX.coerceIn(
+                                0f,
+                                (parent.width - view.width).toFloat()
+                            )
+
+                            newY = newY.coerceIn(
+                                0f,
+                                (parent.height - view.height).toFloat()
+                            )
+
+                            view.x = newX
+                            view.y = newY
+                        }
+
+                        return true
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+
+                        if (!isDragging) {
+                            // It was a click
+                            view.performClick()
+                        }
+
+                        return true
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> {
+                        return true
+                    }
+                }
+
+                return false
+            }
+        })
+
+        binding.micBtn.setOnTouchListener(object : View.OnTouchListener {
+
+            private var dX = 0f
+            private var dY = 0f
+
+            private var startX = 0f
+            private var startY = 0f
+
+            private var isDragging = false
+
+            override fun onTouch(view: View, event: MotionEvent): Boolean {
+
+                val parent = view.parent as View
+
+                when (event.actionMasked) {
+
+                    MotionEvent.ACTION_DOWN -> {
+
+                        dX = view.x - event.rawX
+                        dY = view.y - event.rawY
+
+                        startX = event.rawX
+                        startY = event.rawY
+
+                        isDragging = false
+
+                        return true
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+
+                        val distanceX = event.rawX - startX
+                        val distanceY = event.rawY - startY
+
+                        // Consider it a drag after moving 10 pixels
+                        if (kotlin.math.abs(distanceX) > 10 ||
+                            kotlin.math.abs(distanceY) > 10
+                        ) {
+                            isDragging = true
+                        }
+
+                        if (isDragging) {
+
+                            var newX = event.rawX + dX
+                            var newY = event.rawY + dY
+
+                            newX = newX.coerceIn(
+                                0f,
+                                (parent.width - view.width).toFloat()
+                            )
+
+                            newY = newY.coerceIn(
+                                0f,
+                                (parent.height - view.height).toFloat()
+                            )
+
+                            view.x = newX
+                            view.y = newY
+                        }
+
+                        return true
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+
+                        if (!isDragging) {
+                            // It was a click
+                            view.performClick()
+                        }
+
+                        return true
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> {
+                        return true
+                    }
+                }
+
+                return false
+            }
+        })
 
         binding.titleBar.backBtn.setBackgroundResource(R.drawable.ic_arrow_back)
         binding.titleBar.backBtn.visibility = View.VISIBLE
