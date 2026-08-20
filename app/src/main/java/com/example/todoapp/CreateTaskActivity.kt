@@ -269,6 +269,9 @@ class CreateTaskActivity : AppCompatActivity() {
             }
         }
 
+        binding.titleBar.backBtn.setBackgroundResource(R.drawable.ic_arrow_back)
+        binding.titleBar.backBtn.visibility = View.VISIBLE
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

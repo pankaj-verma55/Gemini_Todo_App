@@ -3,6 +3,7 @@ package com.example.todoapp
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -100,13 +101,9 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
         binding.floatingBtn.setOnClickListener {
             startActivity(Intent(this, CreateTaskActivity::class.java))
         }
-
-//        binding.askButton.setOnClickListener {
-//
-//            val prompt = binding.promptEditText.text.toString()
-//
-//            viewModel.askGemini(prompt)
-//        }
+        binding.titleBar.clockBtn.visibility = View.GONE
+        binding.titleBar.backBtn.setBackgroundResource(R.drawable.ic_box_icon)
+        binding.titleBar.backBtn.visibility = View.VISIBLE
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -120,7 +117,7 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
             this,
             SingleTaskActivity::class.java
         )
-
+        intent.putExtra("selected_date", selectedDate)
         intent.putExtra("selected_category", category)
         startActivity(intent)
     }

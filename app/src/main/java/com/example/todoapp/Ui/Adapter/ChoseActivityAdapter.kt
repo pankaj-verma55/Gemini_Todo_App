@@ -37,17 +37,12 @@ class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
             holder.binding.checkbox.visibility = View.GONE
             holder.binding.arrowDown.visibility = View.VISIBLE
             holder.binding.iconImage.visibility = View.VISIBLE
+            holder.binding.iconImage.setImageResource(item.image)
             holder.binding.timeTxt.visibility = View.GONE
             holder.binding.titleTxt.text = item.task
-            holder.binding.totalTaskTxt.text = item.totalTask
+            holder.binding.totalTaskTxt.text = "${item.totalTask} Task"
             holder.binding.root.setOnClickListener {
                 listener?.onCategoryClick(item.task)
-                val intent = Intent(
-                    holder.binding.root.context,
-                    SingleTaskActivity::class.java
-                )
-                intent.putExtra("selected_category", item.task)
-                holder.binding.root.context.startActivity(intent)
             }
         } else {
 
@@ -59,9 +54,6 @@ class ChoseActivityAdapter(private var itemList: List<ChoseDataItem>,
             holder.binding.timeTxt.visibility = View.VISIBLE
             holder.binding.totalTaskTxt.text = item2.description
             holder.binding.titleTxt.text = item2.title
-//            holder.binding.root.setOnClickListener {
-//                holder.binding.checkbox.isChecked = !holder.binding.checkbox.isChecked
-//            }
             holder.binding.checkbox.isChecked = selectedItems.contains(item2)
 
             holder.binding.checkbox.setOnClickListener {
