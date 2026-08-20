@@ -193,14 +193,15 @@ class CreateTaskActivity : AppCompatActivity() {
         })
 
         val choseList = listOf(
-            ChoseItem(title = "Idea"),
-            ChoseItem(title = "Food"),
-            ChoseItem(title = "Work"),
-            ChoseItem(title = "Box"),
-            ChoseItem(title = "Music")
+            ChoseItem(image = R.drawable.ic_bulb,title = "Idea"),
+            ChoseItem(image = R.drawable.ic_food,title = "Food"),
+            ChoseItem(image = R.drawable.ic_board,title = "Work"),
+            ChoseItem(image = R.drawable.ic_gym,title = "Box"),
+            ChoseItem(image = R.drawable.ic_music,title = "Music")
         )
         val adapter = ChoseItemAdapter(choseList, onItemClick = { selectedItem ->
             binding.titleTxt.text = selectedItem.title
+            binding.iconImage.setImageResource(selectedItem.image)
             binding.rvItem.visibility = View.GONE
         })
         binding.rvItem.layoutManager =

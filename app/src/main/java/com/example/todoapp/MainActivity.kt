@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.Data.DataClass.ChoseDataItem
 import com.example.todoapp.Data.DateItem
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
     private lateinit var viewModel: TodoViewModel
     private lateinit var todoFilterList: List<TodoItem>
     private var viewType = 1
+    private var gridType = 1
     private var selectedDate = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -67,10 +69,32 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
         )
 
         val choseAdapter =
-            ChoseActivityAdapter(choseList, emptyList(), viewType,this)
-        binding.activityRvList.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            ChoseActivityAdapter(choseList, emptyList(), viewType,gridType,this)
+        if(gridType == 1) {
+            binding.activityRvList.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        } else {
+            binding.activityRvList.layoutManager =
+                GridLayoutManager(this, 2)
+        }
         binding.activityRvList.adapter = choseAdapter
+        binding.titleBar.backBtn.setOnClickListener {
+
+            gridType = if (gridType == 1) 2 else 1
+
+            if (gridType == 2) {
+
+                binding.activityRvList.layoutManager =
+                    GridLayoutManager(this, 2)
+
+            } else {
+
+                binding.activityRvList.layoutManager =
+                    LinearLayoutManager(this)
+            }
+
+            choseAdapter.setGridLayout(gridType)
+        }
 
         // Observe Todo list
         lifecycleScope.launch {

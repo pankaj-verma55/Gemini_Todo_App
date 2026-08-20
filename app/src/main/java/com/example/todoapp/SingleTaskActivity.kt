@@ -1,8 +1,6 @@
 package com.example.todoapp
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -84,6 +82,7 @@ class SingleTaskActivity : AppCompatActivity() {
             choseList,
             emptyList()
             , viewType,
+            1,
             object : OnCategoryClickListener {
 
                 override fun onCategoryClick(category: String) {
