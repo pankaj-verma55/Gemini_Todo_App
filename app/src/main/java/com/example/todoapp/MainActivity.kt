@@ -22,6 +22,7 @@ import com.example.todoapp.Ui.Adapter.ChoseActivityAdapter
 import com.example.todoapp.Ui.Adapter.DateAdapter
 import com.example.todoapp.Ui.Adapter.Viewmodel.GeminiViewModel
 import com.example.todoapp.Ui.Adapter.Viewmodel.TodoViewModel
+import com.example.todoapp.Ui.Adapter.Viewmodel.TodoViewModelFactory
 import com.example.todoapp.Ui.Adapter.interfaces.OnCategoryClickListener
 import com.example.todoapp.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
@@ -43,7 +44,8 @@ class MainActivity : AppCompatActivity(), OnCategoryClickListener {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        val factory = TodoViewModelFactory(this.application)
+        viewModel = ViewModelProvider(this,factory)[TodoViewModel::class.java]
 
 //        Date Adapter
 

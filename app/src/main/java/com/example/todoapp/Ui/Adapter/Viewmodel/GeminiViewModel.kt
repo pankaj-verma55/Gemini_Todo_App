@@ -2,7 +2,7 @@ package com.example.todoapp.Ui.Adapter.Viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoapp.Domain.AskGeminiUseCase
+import com.example.todoapp.Domain.UseCase.AskGeminiUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

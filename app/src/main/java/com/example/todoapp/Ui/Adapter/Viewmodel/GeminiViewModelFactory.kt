@@ -2,7 +2,7 @@ package com.example.todoapp.Ui.Adapter.Viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.todoapp.Domain.AskGeminiUseCase
+import com.example.todoapp.Domain.UseCase.AskGeminiUseCase
 
 class GeminiViewModelFactory(
     private val askGeminiUseCase: AskGeminiUseCase
