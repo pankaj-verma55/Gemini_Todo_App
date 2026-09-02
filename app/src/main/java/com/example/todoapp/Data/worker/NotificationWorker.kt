@@ -47,15 +47,6 @@ class NotificationWorker(
                 Context.NOTIFICATION_SERVICE
             ) as NotificationManager
 
-//        val channel = NotificationChannel(
-//            channelId,
-//            "Todo Notifications",
-//            NotificationManager.IMPORTANCE_HIGH
-//        ).apply {
-//            this.description = "Todo task notifications"
-//        }
-//
-//        notificationManager.createNotificationChannel(channel)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,

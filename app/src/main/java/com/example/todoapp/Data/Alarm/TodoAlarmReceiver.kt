@@ -7,10 +7,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.todoapp.R
+import androidx.core.net.toUri
 
 class TodoAlarmReceiver : BroadcastReceiver() {
 
@@ -66,12 +69,29 @@ class TodoAlarmReceiver : BroadcastReceiver() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+            val soundUri = "android.resource://${context.packageName}/${R.raw.todo_alarm}".toUri()
+
+            val audioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(
+                    AudioAttributes.CONTENT_TYPE_SONIFICATION
+                )
+                .build()
+
             val channel = NotificationChannel(
-                "todo_channel",
-                "Todo Notifications",
+                "todo_alarm_channel",
+                "Todo Alarms",
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Todo task notifications"
+
+                description = "Todo reminder alarms"
+
+                setSound(
+                    soundUri,
+                    audioAttributes
+                )
+
+                enableVibration(true)
             }
 
             val manager =
@@ -82,4 +102,5 @@ class TodoAlarmReceiver : BroadcastReceiver() {
             manager.createNotificationChannel(channel)
         }
     }
+
 }
