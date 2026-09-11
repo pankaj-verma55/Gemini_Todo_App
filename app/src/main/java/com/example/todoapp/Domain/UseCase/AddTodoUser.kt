@@ -1,6 +1,7 @@
-package com.example.todoapp.Domain
+package com.example.todoapp.Domain.UseCase
 
-import android.util.Log
+import com.example.todoapp.Domain.TodoItem
+import com.example.todoapp.Domain.TodoRepository
 
 class AddTodoUser(private val repository: TodoRepository) {
     suspend fun execute(
@@ -10,8 +11,8 @@ class AddTodoUser(private val repository: TodoRepository) {
         description: String,
         time: String,
         done: Boolean
-    ) {
-        repository.createTodoData(
+    ): Long {
+        return repository.createTodoData(
             TodoItem(
                 fullDate = fullDate,
                 listSelectedItem = listSelectedItem,

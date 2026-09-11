@@ -1,4 +1,4 @@
-package com.example.todoapp.Domain
+package com.example.todoapp.Domain.UseCase
 
 import com.example.todoapp.Data.GeminiRepositoryImp
 

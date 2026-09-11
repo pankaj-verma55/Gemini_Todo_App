@@ -37,7 +37,7 @@ class TodoDataRepository(private val dao: TodoDao) : TodoRepository {
         )
     }
 
-    override suspend fun createTodoData(todo: TodoItem) {
+    override suspend fun createTodoData(todo: TodoItem):Long {
         return dao.insertTodo(
             TodoDataItem(
                 todo.id,

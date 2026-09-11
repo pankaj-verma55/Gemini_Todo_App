@@ -2,9 +2,13 @@ package com.example.todoapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -26,11 +30,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.Data.DataClass.ChoseItem
 import com.example.todoapp.Data.GeminiRepositoryImp
-import com.example.todoapp.Domain.AskGeminiUseCase
+import com.example.todoapp.Domain.UseCase.AskGeminiUseCase
 import com.example.todoapp.Ui.Adapter.ChoseItemAdapter
 import com.example.todoapp.Ui.Adapter.Viewmodel.GeminiViewModel
 import com.example.todoapp.Ui.Adapter.Viewmodel.GeminiViewModelFactory
 import com.example.todoapp.Ui.Adapter.Viewmodel.TodoViewModel
+import com.example.todoapp.Ui.Adapter.Viewmodel.TodoViewModelFactory
 import com.example.todoapp.Ui.Adapter.dialog.TimeBottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -45,6 +50,7 @@ class CreateTaskActivity : AppCompatActivity() {
     private lateinit var viewModel: TodoViewModel
     private var isVoiceRequest = false
     private var selectedTime: String =""
+    private var todoId = 0
     private lateinit var binding: ActivityCreateTaskBinding
     private lateinit var geminiViewModel: GeminiViewModel
     private lateinit var speechRecognizer: SpeechRecognizer
@@ -54,8 +60,9 @@ class CreateTaskActivity : AppCompatActivity() {
         binding = ActivityCreateTaskBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        val factory = TodoViewModelFactory(this.application)
+        viewModel = ViewModelProvider(this,factory)[TodoViewModel::class.java]
+//        viewModel = ViewModelProvider(this)[TodoViewModel::class.java]
 
         FirebaseApp.initializeApp(this)
         val firebaseAppCheck = FirebaseAppCheck.getInstance()
@@ -65,10 +72,9 @@ class CreateTaskActivity : AppCompatActivity() {
 
         val repository = GeminiRepositoryImp()
         val useCase = AskGeminiUseCase(repository)
-        val factory = GeminiViewModelFactory(useCase)
+        val geminiFactory = GeminiViewModelFactory(useCase)
 
-        geminiViewModel = ViewModelProvider(this, factory)[GeminiViewModel::class.java]
-
+        geminiViewModel = ViewModelProvider(this, geminiFactory)[GeminiViewModel::class.java]
         // Fix: Set click listener outside of flow collection
         binding.geminiAiBtn.setOnClickListener {
             isVoiceRequest = false
@@ -240,6 +246,20 @@ class CreateTaskActivity : AppCompatActivity() {
             println(date)
         }
         binding.createTaskBtn.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
+                val alarmManager =
+                    getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                if (!alarmManager.canScheduleExactAlarms()) {
+
+                    val intent = Intent(
+                        Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                    )
+
+                    startActivity(intent)
+                }
+            }
             val selectedItem = binding.titleTxt.text.toString()
             val title = binding.taskTxt.text.toString()
             val description = binding.taskDescriptionTxt.text.toString()
@@ -260,9 +280,21 @@ class CreateTaskActivity : AppCompatActivity() {
                     time = timeToSave,
                     done = false
                 )
+                val taskTimeMillis = viewModel.getTaskTimeMillis(
+                    date,
+                    timeToSave
+                )
+                viewModel.scheduleTask(
+                    taskId = todoId,
+                    title = title,
+                    description = description,
+                    taskTimeMillis = taskTimeMillis
+                )
                 finish()
             }
+
         }
+
 
         binding.micBtn.setOnClickListener {
 

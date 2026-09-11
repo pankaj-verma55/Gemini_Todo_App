@@ -18,7 +18,7 @@ interface TodoDao {
     suspend fun updateTodoData(todo: TodoDataItem)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTodo(todo: TodoDataItem)
+    suspend fun insertTodo(todo: TodoDataItem): Long
 
     @Delete
     suspend fun deleteTodoData(todo: TodoDataItem)
