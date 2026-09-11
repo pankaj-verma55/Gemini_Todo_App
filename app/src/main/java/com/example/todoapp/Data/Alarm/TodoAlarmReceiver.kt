@@ -52,7 +52,7 @@ class TodoAlarmReceiver : BroadcastReceiver() {
             )
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
-            .setAutoCancel(true)
+            .setAutoCancel(false)
             .build()
 
         NotificationManagerCompat

@@ -81,7 +81,7 @@ class NotificationWorker(
                     .bigText(description)
             )
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+            .setAutoCancel(false)
             .build()
 
         NotificationManagerCompat
